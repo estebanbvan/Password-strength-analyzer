@@ -1,0 +1,29 @@
+import hashlib
+import requests
+
+def check_password_pwned(password):
+    # Хэшируем пароль с использованием SHA-1
+    sha1_password = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+    # Получаем первые 5 символов хэша
+    first5 = sha1_password[:5]
+    rest_of_hash = sha1_password[5:]
+
+    # Запрос к API Have I Been Pwned
+    url = f"https://api.pwnedpasswords.com/range/{first5}"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        # Проверяем, встречается ли остальная часть хэша в ответе
+        hashes = response.text.splitlines()
+        for hash_info in hashes:
+            hash_part, count = hash_info.split(":")
+            if hash_part == rest_of_hash:
+                return f"Этот пароль был найден в {count} утечках данных!"
+        return "Этот пароль безопасен (не найден в утечках)."
+    else:
+        return "Ошибка при подключении к API."
+
+# Пример использования
+password = "123456789"
+result = check_password_pwned(password)
+print(result)
