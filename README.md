@@ -1,2 +1,6 @@
-# Password-strength-analyzer
-Этот модуль будет проверять надежность пароля по различным критериям, например:  Длина пароля. Наличие разных типов символов (буквы, цифры, спецсимволы). Уникальность символов. Легкость угадывания (например, с использованием словаря общих паролей).
+This module will check the strength of the password based on various criteria such as:
+
+Password length.
+Presence of different types of characters (letters, numbers, special characters).
+Uniqueness of characters.
+Ease of guessing (for example, using a dictionary of common passwords).
