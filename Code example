@@ -1,0 +1,34 @@
+import re
+
+def password_strength(password):
+    # Проверка длины пароля
+    length_score = len(password) >= 8  # Пароль должен быть не менее 8 символов
+    # Проверка наличия цифр, букв и спецсимволов
+    digit_score = bool(re.search(r'\d', password))  # Наличие хотя бы одной цифры
+    lower_score = bool(re.search(r'[a-z]', password))  # Наличие хотя бы одной строчной буквы
+    upper_score = bool(re.search(r'[A-Z]', password))  # Наличие хотя бы одной заглавной буквы
+    special_score = bool(re.search(r'[\W_]', password))  # Наличие хотя бы одного спецсимвола
+    
+    # Проверка на общие пароли (простейшая защита)
+    common_passwords = ["password", "123456", "qwerty", "admin", "letmein"]
+    common_score = password.lower() not in common_passwords  # Пароль не должен быть в списке общих
+    
+    # Суммируем баллы
+    strength = sum([length_score, digit_score, lower_score, upper_score, special_score, common_score])
+    
+    # Оценка на основе баллов
+    if strength == 6:
+        return "Очень надежный"
+    elif strength == 5:
+        return "Надежный"
+    elif strength == 4:
+        return "Средний"
+    elif strength == 3:
+        return "Слабый"
+    else:
+        return "Очень слабый"
+
+# Пример использования
+password = "Passw0rd!"
+strength = password_strength(password)
+print(f"Пароль: {password} - {strength}")
